@@ -13,14 +13,14 @@
 #qsub 4_split_QC2.job -v myinput=/stsi/raqueld/3_ancestry/6800_JHS_all_chr_sampleID_c1/6800_JHS_all_chr_sampleID_c1.lifted_hg19_to_GRCh37.GH.ancestry-5.bed,myoutdir=/stsi/raqueld/4_split_QC2,hwe='',geno=0.1,mind=0.1 -N 4_6800_JHS_all_chr_sampleID_c1
 
 
-date
-echo "Running on node:"
-hostname
-pwd
+#date
+#echo "Running on node:"
+#hostname
+#pwd
 
 
-module purge
-module load samtools
+#module purge
+#module load samtools
 
 
 #Missingness per individual --mind N
@@ -33,8 +33,8 @@ starttime=$(date +%s)
 export inprefix=$(basename $myinput | sed -e 's/\.bed$//g')
 export indir=$(dirname $myinput)
 
-export plink="$SLURM_SUBMIT_DIR/required_tools/plink"
-export plink2="$SLURM_SUBMIT_DIR/required_tools/plink2"
+export plink="./required_tools/plink"
+export plink2="./required_tools/plink2"
 
 outsubdir=$(basename $myinput | sed -e 's~\.lifted.*~~g')
 
@@ -44,23 +44,23 @@ fi
 
 cd $myoutdir/$outsubdir
 
-if [ -z "$hwe" ]; then 
+if [ -z "$hwe" ]; then
     echo "No HWE filtering applied.";
-    export hweflag='' 
-else 
-    export hweflag=$(echo "--hwe $hwe" | tr -d '\n'); 
+    export hweflag=''
+else
+    export hweflag=$(echo "--hwe $hwe" | tr -d '\n');
 fi
-if [ -z "$mind" ]; then 
+if [ -z "$mind" ]; then
     echo "No missingness per individual filtering applied.";
-    export mindflag='' 
-else 
-    export mindflag=$(echo "--mind $mind" | tr -d '\n'); 
+    export mindflag=''
+else
+    export mindflag=$(echo "--mind $mind" | tr -d '\n');
 fi
-if [ -z "$geno" ]; then 
+if [ -z "$geno" ]; then
     echo "No missingness per marker filtering applied.";
-    export genoflag='' 
-else 
-    export genoflag=$(echo "--geno $geno" | tr -d '\n'); 
+    export genoflag=''
+else
+    export genoflag=$(echo "--geno $geno" | tr -d '\n');
 fi
 
 
@@ -107,11 +107,11 @@ parallel REMOVE_FUN ::: {1..22}
 # for i in {2..23}; do
 #     if [ -f $inprefix.chr$i.bed ]; then
 #         echo $inprefix.chr$i >> $inprefix.chrlist
-#     fi 
-# done 
+#     fi
+# done
 # $plink --bfile $inprefix.chr1 --merge-list $inprefix.chrlist --remove $inprefix.irem --allow-extra-chr --a1-allele $indir/$inprefix.bim 5 2 --biallelic-only --set-missing-var-ids @:#\$1:\$2 --make-bed --out $inprefix.m
 
-if [ -f $inprefix.chrlist ]; then 
+if [ -f $inprefix.chrlist ]; then
    rm $inprefix.chrlist
 fi
 

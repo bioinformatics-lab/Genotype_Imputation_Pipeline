@@ -28,23 +28,23 @@
 #Split subjects by ancestry (threshold >=0.95)
 
 
-date
-echo "Running on node:"
-hostname
-pwd
+#date
+#echo "Running on node:"
+#hostname
+#pwd
 
-echo SLURM_SUBMIT_DIR: $SLURM_SUBMIT_DIR
+#echo SLURM_SUBMIT_DIR: $SLURM_SUBMIT_DIR
 
-module purge
-module load vcftools
-module load admixture
-module load samtools
-module load R
+#module purge
+#module load vcftools
+#module load admixture
+#module load samtools
+#module load R
 
 
-export plink="$SLURM_SUBMIT_DIR/required_tools/plink"
-export plink2="$SLURM_SUBMIT_DIR/required_tools/plink2"
-export split_by_ancestry="$SLURM_SUBMIT_DIR/required_tools/split_by_ancestry/split_by_ancestry.R"
+export plink="./required_tools/plink"
+export plink2="./required_tools/plink2"
+export split_by_ancestry="./required_tools/split_by_ancestry/split_by_ancestry.R"
 
 
 starttime=$(date +%s)
@@ -81,7 +81,7 @@ PRUNE_FUN() {
 
     bgzip -c $inprefix.chr$1.pruned.recode.vcf > $inprefix.chr$1.pruned.vcf.gz
     tabix -p vcf $inprefix.chr$1.pruned.vcf.gz
-    
+
     rm $inprefix.chr$1.pruned.recode.vcf
 }
 export -f PRUNE_FUN
@@ -97,7 +97,7 @@ ISEC_FUN() {
       $inprefix.chr$1.pruned.vcf.gz \
       /mnt/stsi/stsi0/raqueld/1000G/ALL.chr$1.phase3_shapeit2_mvncall_integrated_v5a.20130502.genotypes.clean.vcf.gz \
       -p ${inprefix}.chr$1_tmp -n =2  -w 1,2 -Oz
-    
+
     bcftools merge ${inprefix}.chr$1_tmp/0000.vcf.gz ${inprefix}.chr$1_tmp/0001.vcf.gz \
       -Oz -o $inprefix.chr$1.pruned.intersect1KG.vcf.gz
     tabix -f -p vcf $inprefix.chr$1.pruned.intersect1KG.vcf.gz
@@ -170,7 +170,7 @@ SPLIT_FUN() {
     # plink --vcf $myinput --a1-allele $inprefix.pos 5 3 --make-bed --out $inprefix
     $plink2 --vcf $myinput.chr$1.vcf.gz --make-bed --id-delim '_' --out $inprefix.chr$1
 
-    for i in {1..5} mixed; do 
+    for i in {1..5} mixed; do
         if [ -f $inprefix.pruned.intersect1KG.5.Q.IDs.$i.ids ]; then
             # plink --bfile $inprefix --keep $inprefix.pruned.intersect1KG.5.Q.IDs.$i.ids --a1-allele $inprefix.pos 5 3 --make-bed --out $inprefix.ancestry-$i
             $plink2 --bfile $inprefix.chr$1 --keep $inprefix.pruned.intersect1KG.5.Q.IDs.$i.ids --make-bed --out $inprefix.ancestry-$i.chr$1

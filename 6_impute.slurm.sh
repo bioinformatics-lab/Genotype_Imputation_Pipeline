@@ -11,16 +11,16 @@
 # if running this step as stand alone tool, input file must have the suffix .lifted_*.chr*.phased.vcf.gz, otherwise the pipeline wont work, if you use the previous step to generate this input file, then it will work fine.
 
 
-date
-echo "Running on node:"
-hostname
-pwd
-echo "myinput $myinput"
+#date
+#echo "Running on node:"
+#hostname
+#pwd
+#echo "myinput $myinput"
 
 
-module purge
-module load samtools
-module load minimac4/1.0.2
+#module purge
+#module load samtools
+#module load minimac4/1.0.2
 imputationSoftware=minimac4
 
 
