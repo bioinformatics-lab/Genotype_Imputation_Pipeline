@@ -19,23 +19,23 @@
 #Remove duplicate SNPs
 
 
-date
-echo "Running on node:"
-hostname
-pwd
+#date
+#echo "Running on node:"
+#hostname
+#pwd
 
 
-module purge
-module load vcftools
-module load samtools
+#module purge
+#module load vcftools
+#module load samtools
 
 
 export inprefix=$(basename $myinput | sed -e 's/\.bed$//g')
 export indir=$(dirname $myinput)
 
-export GH="$SLURM_SUBMIT_DIR/required_tools/GenotypeHarmonizer/GenotypeHarmonizer.jar"
-export plink="$SLURM_SUBMIT_DIR/required_tools/plink"
-export plink2="$SLURM_SUBMIT_DIR/required_tools/plink2"
+export GH="./required_tools/GenotypeHarmonizer/GenotypeHarmonizer.jar"
+export plink="./required_tools/plink"
+export plink2="./required_tools/plink2"
 
 starttime=$(date +%s)
 

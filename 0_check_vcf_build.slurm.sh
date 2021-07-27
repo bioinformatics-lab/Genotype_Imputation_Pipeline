@@ -6,13 +6,13 @@
 #SBATCH --mem=64G
 
 
-date
-echo "Running on node:"
-hostname
-pwd
+#date
+#echo "Running on node:"
+#hostname
+#pwd
 
-module purge
-module load R
+#module purge
+#module load R
 
 #myinput example: /stsi/raqueld/vcf/6800_JHS_all_chr_sampleID_c2.vcf
 #myoutput example: /stsi/raqueld/0_check_vcf_build/6800_JHS_all_chr_sampleID_c2.BuildChecked

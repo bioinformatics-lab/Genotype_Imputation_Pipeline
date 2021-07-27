@@ -15,18 +15,18 @@
 #the input must have the suffix *.lifted*.chr1.bed, *lifted*.chr2.bed, *.lifted*.chr3.bed, etc. The previous steps in the pipeline generate those suffixes automatically, but keep these suffixes in mind if you are running this step as a stand alone tools, without running the previous steps
 
 
-date
-echo "Running on node:"
-hostname
-pwd
+#date
+#echo "Running on node:"
+#hostname
+#pwd
 
 
-module purge
-module load samtools
+#module purge
+#module load samtools
 
-export plink="$SLURM_SUBMIT_DIR/required_tools/plink"
-export plink2="$SLURM_SUBMIT_DIR/required_tools/plink2"
-export eagle="$SLURM_SUBMIT_DIR/required_tools/Eagle_v2.4.1/eagle"
+export plink="./required_tools/plink"
+export plink2="./required_tools/plink2"
+export eagle="./required_tools/Eagle_v2.4.1/eagle"
 
 
 starttime=$(date +%s)
@@ -34,7 +34,7 @@ starttime=$(date +%s)
 inprefix=$(basename $myinput | sed -e 's/\.bed$//g')
 indir=$(dirname $myinput)
 mychr=$(echo $inprefix | sed -e 's/.*\.chr//g')
-mymap="$SLURM_SUBMIT_DIR/required_tools/Eagle_v2.4.1/tables/genetic_map_hg19_withX.txt.gz"
+mymap="./required_tools/Eagle_v2.4.1/tables/genetic_map_hg19_withX.txt.gz"
 
 echo "Chromosome $mychr"
 echo "Input prefix $inprefix"
